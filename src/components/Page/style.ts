@@ -30,6 +30,26 @@ export const s = StyleSheet.create({
   },
   collapseItemPage: {
     flex: 1,
+    flexDirection: "row",
+    gap: 7,
     paddingTop: 10
+  },
+  pageItem: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 10
+  },
+  subContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    paddingVertical: 10,
+    paddingHorizontal: 16
+  },
+  subNoPage: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: colors.gray[400],
+    marginLeft: 70
   }
 });

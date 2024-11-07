@@ -14,18 +14,34 @@ type PageProps = {
 };
 
 export function Page({ data }: PageProps) {
-  const [isVisible, setVisibility] = useState(false);
+  const [isParentCollapsed, setIsParentCollapsed] = useState(false);
+  const [childrenCollapsedStates, setChildrenCollapsedStates] = useState<{
+    [key: string]: boolean;
+  }>({});
 
-  const toggleCollpase = () => {
-    setVisibility((prev) => !prev);
+  const toggleParentCollapse = () => {
+    const newParentCollapsed = !isParentCollapsed;
+
+    setIsParentCollapsed(newParentCollapsed);
+
+    if (!newParentCollapsed) {
+      setChildrenCollapsedStates({});
+    }
+  };
+
+  const toggleChildCollapse = (id: string) => {
+    setChildrenCollapsedStates((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id]
+    }));
   };
 
   return (
     <View style={s.container}>
       <View style={s.content}>
-        <TouchableOpacity onPress={toggleCollpase}>
+        <TouchableOpacity onPress={toggleParentCollapse}>
           <Feather
-            name={!isVisible ? "chevron-right" : "chevron-down"}
+            name={!isParentCollapsed ? "chevron-right" : "chevron-down"}
             size={20}
             color={colors.gray[300]}
           />
@@ -39,11 +55,37 @@ export function Page({ data }: PageProps) {
         </TouchableOpacity>
       </View>
 
-      <Collapsible isVisible={isVisible} duration={200}>
+      <Collapsible isVisible={isParentCollapsed} duration={200}>
         <View style={s.collapseItem}>
           {data?.pages?.map((page) => (
-            <View style={s.collapseItemPage} key={page.id}>
-              <Text style={s.title}>{page.title}</Text>
+            <View key={page.id}>
+              <View style={s.subContent}>
+                <TouchableOpacity onPress={() => toggleChildCollapse(page.id)}>
+                  <Feather
+                    name={
+                      childrenCollapsedStates[page.id]
+                        ? "chevron-down"
+                        : "chevron-right"
+                    }
+                    size={20}
+                    color={colors.gray[300]}
+                  />
+                </TouchableOpacity>
+                <Feather name="file-text" size={20} color={colors.gray[300]} />
+
+                <Text style={s.title}>{page.title}</Text>
+
+                <TouchableOpacity>
+                  <Feather name="plus" size={20} color={colors.gray[300]} />
+                </TouchableOpacity>
+              </View>
+
+              <Collapsible
+                isVisible={!!childrenCollapsedStates[page.id]}
+                duration={10}
+              >
+                <Text style={s.subNoPage}>Não há páginas internas</Text>
+              </Collapsible>
             </View>
           )) || (
             <View style={s.collapseItemPage}>
