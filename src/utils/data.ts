@@ -1,8 +1,26 @@
 const PAGES = [
-  { id: "1", title: "React Native" },
+  {
+    id: "1",
+    title: "React Native",
+    pages: [
+      {
+        id: "1",
+        title: "Animações"
+      }
+    ]
+  },
   { id: "2", title: "Expo" },
   { id: "3", title: "Links" },
-  { id: "4", title: "Projetos" },
+  {
+    id: "4",
+    title: "Projetos",
+    pages: [
+      {
+        id: "1",
+        title: "Usuário GitHub"
+      }
+    ]
+  },
   { id: "5", title: "Node.js" },
   { id: "6", title: "Expo Router" },
   { id: "7", title: "Youtube" },

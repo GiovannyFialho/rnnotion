@@ -7,10 +7,14 @@ import { colors } from "@/styles/colors";
 
 import { s } from "@/components/PageList/style";
 
-type PageListProps = {
+export type PageListProps = {
   data: {
     id: string;
     title: string;
+    pages?: {
+      id: string;
+      title: string;
+    }[];
   }[];
 };
 
@@ -32,7 +36,7 @@ export function PageList({ data }: PageListProps) {
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Page title={item.title} />}
+        renderItem={({ item }) => <Page data={item} />}
         showsVerticalScrollIndicator={false}
         style={s.list}
         ItemSeparatorComponent={() => <View style={s.separator} />}
